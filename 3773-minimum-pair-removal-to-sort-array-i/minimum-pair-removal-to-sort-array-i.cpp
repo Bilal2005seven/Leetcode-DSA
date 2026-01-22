@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int minimumPairRemoval(vector<int>& nums) {
+        int operations = 0;
+
+        // Helper lambda to check if array is non-decreasing
+        auto isNonDecreasing = [&](const vector<int>& arr) {
+            for (int i = 1; i < arr.size(); i++) {
+                if (arr[i] < arr[i - 1]) return false;
+            }
+            return true;
+        };
+
+        while (!isNonDecreasing(nums)) {
+            int minSum = INT_MAX;
+            int idx = 0;
+
+            // Find leftmost adjacent pair with minimum sum
+            for (int i = 0; i + 1 < nums.size(); i++) {
+                int s = nums[i] + nums[i + 1];
+                if (s < minSum) {
+                    minSum = s;
+                    idx = i;
+                }
+            }
+
+            // Replace nums[idx] and nums[idx+1] with their sum
+            nums.erase(nums.begin() + idx);
+            nums[idx] = minSum;
+
+            operations++;
+        }
+
+        return operations;
+    }
+};
