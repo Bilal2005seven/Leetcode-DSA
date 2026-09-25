@@ -1,27 +1,33 @@
 class Solution {
 public:
     vector<int> dailyTemperatures(vector<int>& temperatures) {
+        
+        stack<int> helperStack;
 
         int n = temperatures.size();
+        vector<int> result(n, 0);
 
-        vector<int> ans(n, 0);
+        // Right se left traverse
+        for (int idx = n - 1; idx >= 0; idx--) {
 
-        stack<int> st;
-
-        for(int i = 0; i < n; i++) {
-
-            while(!st.empty() &&
-                  temperatures[i] > temperatures[st.top()]) {
-
-                int prev = st.top();
-                st.pop();
-
-                ans[prev] = i - prev;
+            // Current temperature se chhote ya equal
+            // temperatures ko remove karo
+            while (!helperStack.empty() &&
+                   temperatures[idx] >= temperatures[helperStack.top()]) {
+                
+                helperStack.pop();
             }
 
-            st.push(i);
+            // Agar stack empty nahi hai,
+            // top par next warmer temperature ka index hai
+            if (!helperStack.empty()) {
+                result[idx] = helperStack.top() - idx;
+            }
+
+            // Current index ko stack mein daalo
+            helperStack.push(idx);
         }
 
-        return ans;
+        return result;
     }
 };
