@@ -18,6 +18,6 @@ public:
                 temp2 = temp2->next;
         }
 
-        return temp1;
+        return temp2;
     }
 };
