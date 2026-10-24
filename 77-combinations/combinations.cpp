@@ -9,8 +9,8 @@ private:
             v.push_back(temp);
             return;
         }
-
-        for (int i = index; i <= n; i++) {
+        int need = k-temp.size() ;
+        for (int i = index; i <= n-need+1; i++) {
             temp.push_back(i);
             magic(v, temp, n, k, i + 1);
             temp.pop_back();
