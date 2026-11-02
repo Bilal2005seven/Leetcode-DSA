@@ -1,34 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> result;
 
-        if (root == NULL) {
-            return result;
-        }
+        vector<vector<int>> ans;
 
+        if(root == nullptr) return ans;
         queue<TreeNode*> q;
         q.push(root);
+        while(!q.empty()) {
+            int n = q.size();
+            vector<int> curr;
+            for(int i = 0; i < n; i++) {
 
-        while (!q.empty()) {
-
-            int size = q.size();   // number of nodes in current level
-            vector<int> level;     // store this level
-
-            for (int i = 0; i < size; i++) {
-
-                TreeNode* curr = q.front();
+                TreeNode* top = q.front();
                 q.pop();
 
-                level.push_back(curr->val);
+                curr.push_back(top->val);
 
-                if (curr->left) q.push(curr->left);
-                if (curr->right) q.push(curr->right);
+                if(top->left) q.push(top->left);
+                if(top->right) q.push(top->right);
             }
 
-            result.push_back(level); // add level to result
+            ans.push_back(curr);
         }
 
-        return result;
+        return ans;
     }
 };
