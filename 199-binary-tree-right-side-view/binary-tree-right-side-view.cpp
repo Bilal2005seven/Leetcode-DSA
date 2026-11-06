@@ -1,29 +1,26 @@
+#include <vector>
+
+using namespace std;
+
 class Solution {
-public:
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> res;
-        if (!root) return res;
+private:
+    void dfs(TreeNode* root, int level, vector<int>& result) {
+        if (root == nullptr) return;
 
-        queue<TreeNode*> q;
-        q.push(root);
-
-        while (!q.empty()) {
-            int size = q.size();
-
-            for (int i = 0; i < size; i++) {
-                TreeNode* node = q.front();
-                q.pop();
-
-                // last node of level
-                if (i == size - 1) {
-                    res.push_back(node->val);
-                }
-
-                if (node->left) q.push(node->left);
-                if (node->right) q.push(node->right);
-            }
+        // Agar hum is level par pehli baar aaye hain
+        if (level == result.size()) {
+            result.push_back(root->val);
         }
 
-        return res;
+        // Pehle RIGHT explore karo, phir LEFT
+        dfs(root->right, level + 1, result);
+        dfs(root->left, level + 1, result);
+    }
+
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> result;
+        dfs(root, 0, result);
+        return result;
     }
 };
